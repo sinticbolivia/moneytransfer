@@ -20,20 +20,33 @@ dependencies = [
 	meson.get_compiler('vala').find_library('mysql'),
     dependency('libpq'),
 ]
+# LIBSOUP
+dsoup = dependency('libsoup-3.0', version: '>=3.0.4', required: false)
+if dsoup.found()
+	dependencies += dsoup
+else
+	dependencies += dependency('libsoup-2.4', version: '>=2.64.2')
+endif
+# DESKTOP FRAMEWORK
+add_project_arguments(['--vapidir', meson.current_source_dir() + '/' + sbframework_dir], language: 'vala')
+dependencies += meson.get_compiler('c').find_library('SinticBolivia', dirs: meson.current_source_dir() + '/' + sbframework_dir)
+inc_directories = ['../' + sbframework_dir]
+link_args += '-L' + meson.current_source_dir() + '/' + sbframework_dir
+link_args += '-lSinticBolivia'
+
 if SO_TARGET == 'MACOS'
-	add_project_arguments(['--vapidir', meson.current_source_dir() + '/' + sbframework_dir], language: 'vala')
-	dependencies += dependency('libsoup-3.0', version: '>=3.0.4')
-	dependencies += meson.get_compiler('c').find_library('SinticBolivia', dirs: meson.current_source_dir() + '/' + sbframework_dir)
-	inc_directories = ['../' + sbframework_dir]
-	link_args += '-L' + meson.current_source_dir() + '/' + sbframework_dir
-	link_args += '-lSinticBolivia'
+	# add_project_arguments(['--vapidir', meson.current_source_dir() + '/' + sbframework_dir], language: 'vala')
+	# dependencies += dependency('libsoup-3.0', version: '>=3.0.4')
+	# dependencies += meson.get_compiler('c').find_library('SinticBolivia', dirs: meson.current_source_dir() + '/' + sbframework_dir)
+	# inc_directories = ['../' + sbframework_dir]
+	# link_args += '-L' + meson.current_source_dir() + '/' + sbframework_dir
+	# link_args += '-lSinticBolivia'
 elif SO_TARGET == 'LINUX'
-    add_project_arguments(['--vapidir', meson.current_source_dir() + '/' + sbframework_dir], language: 'vala')
-    dependencies += dependency('libsoup-2.4', version: '>=2.64.2')
-    dependencies += meson.get_compiler('c').find_library('SinticBolivia', dirs: meson.current_source_dir() + '/' + sbframework_dir)
-    inc_directories = ['../' + sbframework_dir]
-    link_args += '-L' + meson.current_source_dir() + '/' + sbframework_dir
-    link_args += '-lSinticBolivia'
+    # add_project_arguments(['--vapidir', meson.current_source_dir() + '/' + sbframework_dir], language: 'vala')
+    # dependencies += meson.get_compiler('c').find_library('SinticBolivia', dirs: meson.current_source_dir() + '/' + sbframework_dir)
+    # inc_directories = ['../' + sbframework_dir]
+    # link_args += '-L' + meson.current_source_dir() + '/' + sbframework_dir
+    # link_args += '-lSinticBolivia'
 endif
 
 message('MESON BASE DIR', meson.current_source_dir() )

@@ -28,13 +28,13 @@ namespace SinticBolivia.Modules.MoneyTransfer.Classes
         }
         public bool is_root()
         {
-            return (this.role_id === 0 && this.username == "root");
+            return (this.role_id == 0 && this.username == "root");
         }
         public bool can(string permission)
         {
             if( this.is_root() )
                 return true;
-                
+
             return true;
         }
     }
