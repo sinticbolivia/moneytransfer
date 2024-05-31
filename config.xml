@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<config version="1.0">
+	<database_engine>postgres</database_engine>
+	<db_server>127.0.0.1</db_server>
+	<db_name>moneytransfer</db_name>
+	<db_user>devudb</db_user>
+	<db_pass>[devudb]</db_pass>
+	<!--
+	<db_user>mtudb</db_user>
+	<db_pass>8KMcWLKg2B9s04e</db_pass>
+	-->
+	<db_port>5432</db_port>
+	<modules_path>/Modules</modules_path>
+	<server_port>2021</server_port>
+	<modules>
+		<![CDATA[
+		[
+			"build/libmoneyrequests.dylib"
+		]
+		]]>
+	</modules>
+	<smtp class="SinticBolivia.Classes.SBSmtpConfig">
+		<server>mail.sinticbolivia.net</server>
+		<port>25</port>
+		<username>ventas@sinticbolivia.net</username>
+		<password>JnmsAKmu4k5I</password>
+		<from>ventas@sinticbolivia.net</from>
+	</smtp>
+	<services>
+		<service name="service_authentication">http://localhost/SBFramework/api/users/get-token</service>
+		<service name="service_profile">http://localhost/SBFramework/api/users/profile</service>
+		<service name="service_users">http://localhost/SBFramework/api/users</service>
+		<!--
+		<service name="service_authentication">https://authentication.hexadatos.net/api/users/get-token</service>
+		<service name="service_profile">https://authentication.hexadatos.net/api/users/profile</service>
+		-->
+		<service name="service_firebase">http://localhost/SBFramework/api/firebase/message</service>
+	</services>
+	<hooks>
+		<!--
+		<hook event="on_subscriptions_expired_found" method="POST">https://gestion.sinticbolivia.net/subscriptions/hooks/expired-found</hook>
+		<hook event="on_subscriptions_close_to_expire" method="POST">https://gestion.sinticbolivia.net/subscriptions/hooks/close-to-expire</hook>
+		-->
+	</hooks>
+</config>
