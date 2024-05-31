@@ -1,4 +1,4 @@
-#Requirements
+# Requirements
 
 Vala 0.56
 Lib DesktopFramework
@@ -11,13 +11,13 @@ mysqlclient or mariadbclient
 libpq (postgres)
 libsoup-3.0 or libsoup-2.4
 
-#Compilation
+# Compilation
 
 meson build
 cd build
 meson compile
 
-#Compile microservice server
+# Compile microservice server
 
 Into DesktopFramework repository
 
@@ -25,7 +25,7 @@ make api
 
 copy the compiled api file into moneytransfer repository
 
-#Config file
+# Config file
 
 Open config.xml and set 
 - database configuracion
