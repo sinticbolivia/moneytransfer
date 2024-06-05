@@ -1,8 +1,10 @@
 using GLib;
+using SinticBolivia;
+using SinticBolivia.Classes;
 
 namespace SinticBolivia.Modules.MoneyTransfer.Dto
 {
-    public class DtoAttachmentData
+    public class DtoAttachmentData : SBObject
     {
         public  string  filename {get;set;}
         public  string  buffer {get;set;}

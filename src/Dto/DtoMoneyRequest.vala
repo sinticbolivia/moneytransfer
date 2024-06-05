@@ -2,7 +2,7 @@ using SinticBolivia.Modules.MoneyTransfer.Entities;
 
 namespace SinticBolivia.Modules.MoneyTransfer.Dto
 {
-    public class DtoMoneyRequest
+    public class DtoMoneyRequest : SBObject
     {
         public  long        id {get;set;}
         public  long        source_id {get;set;}

@@ -42,7 +42,10 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
             this.add_route("GET", """/api/moneytransfer/requests/(?P<id>\d+)/completed/?$""", this.completed)
                 .set_protected(true)
             ;
-            this.add_route("POST", """/api/moneytransfer/requests/(?P<id>\d+)/attachments/?$""", this.create)
+            this.add_route("POST", """/api/moneytransfer/requests/(?P<id>\d+)/attachments/?$""", this.upload_attachment)
+                .set_protected(true)
+            ;
+            this.add_route("GET", """/api/moneytransfer/requests/(?P<id>\d+)/attachments/(?P<aid>\d+)/?$""", this.read_attachment)
                 .set_protected(true)
             ;
             this.add_route("GET", """/api/moneytransfer/requests/users/(?P<id>\d+)/?$""", this.read_user_requests)
@@ -138,6 +141,11 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
             long req_id = args.get_long("id");
             try
             {
+                if( req_id <= 0 )
+                    throw new SBException.GENERAL("Identificador de solicitud invalido");
+                var req = Entity.where("id", "=", req_id).first<MoneyRequest>();
+                if( req == null )
+                    throw new SBException.GENERAL("La solicitud no existe, no se puede subir el adjunto");
                 DtoAttachmentData adata = this.toObject<DtoAttachmentData>();
                 if( adata == null )
                     throw new SBException.GENERAL("Datos de adjunto invalidos");
@@ -150,16 +158,16 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 if( !FileUtils.test(path, FileTest.IS_DIR) )
                 {
                     var file = File.new_for_commandline_arg(path);
-                    file.make_directory();
+                    file.make_directory_with_parents();
                 }
                 string filename = Uuid.string_random() + ".jpg";
                 FileUtils.set_data(path + "/" + filename, adata.get_binary_buffer());
                 var attachment = new Attachment();
                 attachment.request_id = req_id;
-                attachment.name = adata.filename;
+                attachment.name = filename;
                 attachment.description = "";
                 attachment.filename = filename;
-                attachment.atype = adata.mime;
+                attachment.atype = "qr_image"; //adata.mime;
                 attachment.save();
 
                 return new RestResponse(Soup.Status.CREATED, attachment.to_json(), "application/json");
@@ -173,6 +181,27 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 return new RestResponse(Soup.Status.INTERNAL_SERVER_ERROR, e.message);
             }
             catch(GLib.Error e)
+            {
+                return new RestResponse(Soup.Status.INTERNAL_SERVER_ERROR, e.message);
+            }
+        }
+        public RestResponse? read_attachment(SBCallbackArgs args)
+        {
+            try
+            {
+                long aid = args.get_long("aid");
+                int buffer = this.get_int("buffer", 0);
+                if( aid <= 0 )
+                    throw new SBException.GENERAL("Identificador de adjunto invalido");
+                var attachment = Entity.where("id", "=", aid).first<Attachment>();
+                if( attachment == null )
+                    throw new SBException.GENERAL("El adjunto no existe");
+                if( buffer <= 0 )
+                    return new RestResponse(Soup.Status.OK, attachment.to_json(), "application/json");
+
+                return new RestResponse(Soup.Status.OK, Base64.encode(attachment.get_buffer()), "text/plain");
+            }
+            catch(SBException e)
             {
                 return new RestResponse(Soup.Status.INTERNAL_SERVER_ERROR, e.message);
             }

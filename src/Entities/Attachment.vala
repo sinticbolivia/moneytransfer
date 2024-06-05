@@ -14,12 +14,18 @@ namespace SinticBolivia.Modules.MoneyTransfer.Entities
 
         construct
         {
-            this._table = "mr_attachments";
+            this._table = "mr_request_attachments";
             this._primary_key = "id";
         }
         public Attachment()
         {
 
+        }
+        public uint8[] get_buffer()
+        {
+            uint8[] contents;
+            FileUtils.get_data("./storage/attachments/%s".printf(this.filename), out contents);
+            return contents;
         }
     }
 }
