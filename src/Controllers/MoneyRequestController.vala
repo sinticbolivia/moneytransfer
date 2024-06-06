@@ -189,17 +189,24 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
         {
             try
             {
-                long aid = args.get_long("aid");
-                int buffer = this.get_int("buffer", 0);
+                long id     = args.get_long("id");
+                long aid    = args.get_long("aid");
+                int buffer  = this.get_int("buffer", 0);
+                if( id <= 0 )
+                    throw new SBException.GENERAL("Identificador de solicitud invalido");
                 if( aid <= 0 )
                     throw new SBException.GENERAL("Identificador de adjunto invalido");
-                var attachment = Entity.where("id", "=", aid).first<Attachment>();
+                var attachment = Entity.where("id", "=", aid).and().equals("request_id", id).first<Attachment>();
                 if( attachment == null )
                     throw new SBException.GENERAL("El adjunto no existe");
                 if( buffer <= 0 )
                     return new RestResponse(Soup.Status.OK, attachment.to_json(), "application/json");
 
-                return new RestResponse(Soup.Status.OK, Base64.encode(attachment.get_buffer()), "text/plain");
+                //return new RestResponse(Soup.Status.OK, Base64.encode(attachment.get_buffer()), "text/plain");
+                return new RestResponse(Soup.Status.OK,
+                    """{"id": %ld,"buffer": "%s"}""".printf(attachment.id, Base64.encode(attachment.get_buffer())),
+                    "application/json"
+                );
             }
             catch(SBException e)
             {
