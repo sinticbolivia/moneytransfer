@@ -275,8 +275,8 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 long id = args.get_long("id", 0);
                 if( id <= 0 )
                     throw new SBException.GENERAL("Identificador de usuario invalido");
-                var items = Entity.where("source_id", "=", id).get<MoneyRequest>();
-                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json");
+                var items = Entity.where("source_id", "=", id).order_by("request_date", "desc").get<MoneyRequest>();
+                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
