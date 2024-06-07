@@ -41,7 +41,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 var items   = Entity.limit(limit, offset)
                     .order_by("creation_date", "DESC")
                     .get<PaymentMethod>();
-                return new RestResponse(Soup.Status.CREATED, items.to_json(), "application/json");
+                return new RestResponse(Soup.Status.CREATED, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {

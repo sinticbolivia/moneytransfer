@@ -77,6 +77,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 int offset  = (page > 1) ? ((page - 1) * limit) : 0;
                 var items   = Entity.limit(limit, offset)
                     .order_by("creation_date", "DESC")
+                    limit(limit, offset)
                     .get<MoneyRequest>();
 
                 return new RestResponse(Soup.Status.OK, items.to_json(), "application/json");
@@ -272,10 +273,16 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
         {
             try
             {
-                long id = args.get_long("id", 0);
+                long id     = args.get_long("id", 0);
+                int page    = this.get_int("page", 1);
+                int limit   = this.get_int("limit", 10);
                 if( id <= 0 )
                     throw new SBException.GENERAL("Identificador de usuario invalido");
-                var items = Entity.where("source_id", "=", id).order_by("request_date", "desc").get<MoneyRequest>();
+                int offset = (page <= 1) ? 0 : ( (page - 1) * limit);
+                var items = Entity.where("source_id", "=", id)
+                    .order_by("request_date", "desc")
+                    .limit(limit, offset)
+                    .get<MoneyRequest>();
                 return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
@@ -291,7 +298,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 if( id <= 0 )
                     throw new SBException.GENERAL("Identificador de usuario invalido");
                 var items = Entity.where("target_id", "=", id).get<MoneyRequest>();
-                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
