@@ -77,7 +77,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 int offset  = (page > 1) ? ((page - 1) * limit) : 0;
                 var items   = Entity.limit(limit, offset)
                     .order_by("creation_date", "DESC")
-                    limit(limit, offset)
+                    .limit(limit, offset)
                     .get<MoneyRequest>();
 
                 return new RestResponse(Soup.Status.OK, items.to_json(), "application/json");
