@@ -35,6 +35,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                     throw new SBException.GENERAL("Invalid user back image mime type");
 
                 var dtoveriff = new DtoVeriffSession();
+                dtoveriff.callback = SBFactory.config.get_string("veriff_callback");
                 dtoveriff.firstName = this.profile.first_name;
                 dtoveriff.lastName = this.profile.last_name;
                 dtoveriff.idNumber = data.document_number;
@@ -47,8 +48,8 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 dtoveriff.approved = true;
                 //debug(dtoveriff.to_json());
                 var service = new ServiceVeriff(
-                    (string)SBFactory.config.GetValue("veriff_api_key"),
-                    (string)SBFactory.config.GetValue("veriff_shared_key")
+                    SBFactory.config.get_string("veriff_api_key"),
+                    SBFactory.config.get_string("veriff_shared_key")
                 );
                 debug("CREATING VERIFF SESSION");
                 var vres = service.create_session(dtoveriff);
