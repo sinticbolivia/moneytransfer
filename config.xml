@@ -26,6 +26,11 @@
 		<password>JnmsAKmu4k5I</password>
 		<from>ventas@sinticbolivia.net</from>
 	</smtp>
+	<veriff>
+		<apiKey name="veriff_api_key">4ee2e93d-4717-4267-ab3b-3363398a4e36</apiKey>
+		<sharedKey name="veriff_shared_key">2a575a70-42d2-4b93-83df-9971d0b0eda9</sharedKey>
+		<callback name="veriff_callback">https://moneytransfer.sinticbolivia.net/api/moneytransfer/veriff/callback</callback>
+	</veriff>
 	<services>
 		<service name="service_authentication">http://localhost/SBFramework/api/users/get-token</service>
 		<service name="service_profile">http://localhost/SBFramework/api/users/profile</service>

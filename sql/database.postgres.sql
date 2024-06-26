@@ -72,3 +72,13 @@ create table mr_wallet_charges(
     last_modification_date  timestamp,
     creation_date           timestamp
 );
+create table mr_veriff_sessions(
+    id                      bigserial primary key,
+    user_id                 bigint not null,
+    session_id              varchar(128),
+    url                     varchar(256),
+    status                  varchar(32),
+    session_token           varchar(256),
+    last_modification_date  timestamp,
+    creation_date           timestamp
+);

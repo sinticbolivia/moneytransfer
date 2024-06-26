@@ -37,6 +37,8 @@ namespace SinticBolivia.Modules.MoneyTransfer
             server.add_handler_args("/api/moneytransfer/paymentmethods", typeof(PaymentMethodsController));
             server.add_handler_args("/api/moneytransfer/parameters", typeof(ParametersController));
             server.add_handler_args("/api/moneytransfer/wallets", typeof(WalletsController));
+            server.add_handler_args("/api/moneytransfer/withdrawals", typeof(WithdrawalsController));
+            server.add_handler_args("/api/moneytransfer/veriff", typeof(VeriffController));
         }
     }
 }

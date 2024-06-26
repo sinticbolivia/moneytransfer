@@ -57,6 +57,10 @@ sources = [
     'src/Dto/DtoMoneyRequest.vala',
     'src/Dto/DtoAttachmentData.vala',
     'src/Dto/DtoResponse.vala',
+	'src/Dto/DtoVeriffSession.vala',
+	'src/Dto/DtoVeriffMedia.vala',
+	'src/Dto/DtoVeriffRequest.vala',
+	'src/Dto/DtoVeriffResponse.vala',
     'src/Classes/UserProfile.vala',
 	'src/Entities/Parameter.vala',
     'src/Entities/Attachment.vala',
@@ -65,7 +69,9 @@ sources = [
     'src/Entities/RequestState.vala',
 	'src/Entities/Wallet.vala',
 	'src/Entities/WalletCharge.vala',
+	'src/Entities/Withdraw.vala',
 	'src/Services/ServiceFirebase.vala',
+	'src/Services/ServiceVeriff.vala',
     'src/Models/AuthenticationModel.vala',
     'src/Models/MoneyRequestsModel.vala',
 	'src/Models/WalletsModel.vala',
@@ -74,6 +80,8 @@ sources = [
     'src/Controllers/PaymentMethodsController.vala',
 	'src/Controllers/ParametersController.vala',
 	'src/Controllers/WalletsController.vala',
+	'src/Controllers/WithdrawalsController.vala',
+	'src/Controllers/VeriffController.vala',
     'src/mr_module.vala'
 ]
 
