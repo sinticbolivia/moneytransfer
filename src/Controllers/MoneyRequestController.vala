@@ -273,14 +273,15 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
         {
             try
             {
-                long id     = args.get_long("id", 0);
-                int page    = this.get_int("page", 1);
-                int limit   = this.get_int("limit", 10);
+                long id         = args.get_long("id", 0);
+                int page        = this.get_int("page", 1);
+                int limit       = this.get_int("limit", 10);
+                string order    = this.get("order", "desc");
                 if( id <= 0 )
                     throw new SBException.GENERAL("Identificador de usuario invalido");
                 int offset = (page <= 1) ? 0 : ( (page - 1) * limit);
                 var items = Entity.where("source_id", "=", id)
-                    .order_by("request_date", "desc")
+                    .order_by("request_date", order)
                     .limit(limit, offset)
                     .get<MoneyRequest>();
                 return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");

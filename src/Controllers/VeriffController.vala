@@ -42,11 +42,11 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 dtoveriff.number = data.document_number;
                 dtoveriff.doc_type = "ID_CARD";
                 dtoveriff.country = "BO";
-                dtoveriff.fullAddress = "";
+                dtoveriff.fullAddress = "Lorem Ipsum 30, 13612 Tallinn, Estonia";
                 dtoveriff.vendorData = "UID-%ld".printf(this.profile.user_id);
                 dtoveriff.ctype = "ine";
                 dtoveriff.approved = true;
-                //debug(dtoveriff.to_json());
+                debug(dtoveriff.to_json());
                 var service = new ServiceVeriff(
                     SBFactory.config.get_string("veriff_api_key"),
                     SBFactory.config.get_string("veriff_shared_key")

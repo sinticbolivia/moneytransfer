@@ -53,8 +53,9 @@ namespace SinticBolivia.Modules.MoneyTransfer.Dto
             obj.set_string_member("callback", this.callback);
             if( this.vendorData != null )
                 obj.set_string_member("vendorData", this.vendorData);
-            
-            return obj;
+            var root = new Json.Object();
+            root.set_object_member("verification", obj);
+            return root;
         }
     }
 }
