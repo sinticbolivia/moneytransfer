@@ -56,7 +56,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Entities
         public Attachment? get_qr_image()
         {
             var many = (SBHasMany<Attachment>)this.has_many<Attachment>("request_id", "id");
-            many.builder.equals("atype", "qr_image");
+            many.builder.where().and().equals("atype", "qr_image");
             return many.first();
         }
         public override Json.Object to_json_object()
