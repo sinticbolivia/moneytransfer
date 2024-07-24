@@ -55,7 +55,9 @@ namespace SinticBolivia.Modules.MoneyTransfer.Entities
         }
         public Attachment? get_qr_image()
         {
-            return this.has_many<Attachment>("request_id", "id").builder.equals("atype", "qr_image").first();
+            var has_many = this.has_many<Attachment>("request_id", "id");
+            has_many.builder.equals("atype", "qr_image");
+            return has_many.first();
         }
         public override Json.Object to_json_object()
         {

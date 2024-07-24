@@ -27,8 +27,12 @@ copy the compiled api file into moneytransfer repository
 
 # Config file
 
-Open config.xml and set 
+Open config.xml and set
 - database configuracion
 - Microservices endpoints
 - SMTP Config
 - Modules path for server loading
+
+# Run with debug
+
+G_MESSAGES_DEBUG=all ./api-moneytransfer
