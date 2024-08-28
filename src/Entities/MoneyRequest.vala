@@ -14,19 +14,19 @@ namespace SinticBolivia.Modules.MoneyTransfer.Entities
         public const string     STATUS_REQUEST_AUTHORIZED    = "REQUEST_AUTHORIZED";
         public const string     STATUS_REQUEST_DENIED        = "REQUEST_DENIED";
 
-        public  long        id {get;set;}
-        public  long        source_id {get;set;}
-        public  long        target_id {get;set;}
-        public  string      source_name {get;set;}
-        public  string      target_name {get;set;}
-        public  long        payment_method_id {get;set;}
-        public  string      notes {get;set;}
-        public  SBDateTime?  request_date {get;set;}
-        public  SBDateTime?  limit_date {get;set;}
-        public  string      status {get;set;}
-        public  string      completed {get;set; default = "0";}
-        public  string      deleted {get;set; default = "0";}
-        public  double      amount {get;set;default = 0;}
+        public  long            id {get;set;}
+        public  long            source_id {get;set;}
+        public  long            target_id {get;set;}
+        public  string          source_name {get;set;}
+        public  string          target_name {get;set;}
+        public  long            payment_method_id {get;set;}
+        public  string          notes {get;set;}
+        public  SBDateTime?     request_date {get;set;}
+        public  SBDateTime?     limit_date {get;set;}
+        public  string          status {get;set;}
+        public  string          completed {get;set; default = "0";}
+        public  string          deleted {get;set; default = "0";}
+        public  double          amount {get;set;default = 0;}
 
         construct
         {

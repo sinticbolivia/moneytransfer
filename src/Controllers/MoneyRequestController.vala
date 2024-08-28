@@ -61,7 +61,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 var request = this.toObject<MoneyRequest>();
                 this.model.profile = this.profile;
                 this.model.create(request);
-                return new RestResponse(Soup.Status.CREATED, request.to_json(), "application/json");
+                return new RestResponse(Soup.Status.CREATED, request.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -80,7 +80,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                     .limit(limit, offset)
                     .get<MoneyRequest>();
 
-                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -94,7 +94,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 if( this.profile.user_id <= 0 )
                     throw new SBException.GENERAL("Identificador de usuario invalido");
                 var items = Entity.where("target_id", "=", this.profile.user_id).get<MoneyRequest>();
-                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -112,7 +112,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 if( request == null )
                     throw new SBException.GENERAL("La solicitud no existe");
 
-                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -130,7 +130,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 if( request == null )
                     throw new SBException.GENERAL("La solicitud no existe");
                 var items = request.get_states();
-                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -171,7 +171,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 attachment.atype = "qr_image"; //adata.mime;
                 attachment.save();
 
-                return new RestResponse(Soup.Status.CREATED, attachment.to_json(), "application/json");
+                return new RestResponse(Soup.Status.CREATED, attachment.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -201,7 +201,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                 if( attachment == null )
                     throw new SBException.GENERAL("El adjunto no existe");
                 if( buffer <= 0 )
-                    return new RestResponse(Soup.Status.OK, attachment.to_json(), "application/json");
+                    return new RestResponse(Soup.Status.OK, attachment.to_json(), "application/json; charset=utf-8");
 
                 //return new RestResponse(Soup.Status.OK, Base64.encode(attachment.get_buffer()), "text/plain");
                 return new RestResponse(Soup.Status.OK,
@@ -226,7 +226,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
 
                 this.model.profile = this.profile;
                 this.model.accept(request, this.profile);
-                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -244,7 +244,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                     throw new SBException.GENERAL("Solicitud no existente");
                 this.model.profile = this.profile;
                 this.model.reject(request, this.profile);
-                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -262,7 +262,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                     throw new SBException.GENERAL("Solicitud no existente");
                 this.model.profile = this.profile;
                 this.model.complete(request, this.profile);
-                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json");
+                return new RestResponse(Soup.Status.OK, request.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
             {
@@ -295,10 +295,17 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
         {
             try
             {
-                long id = args.get_long("id", 0);
+                long id         = args.get_long("id", 0);
+                int page        = this.get_int("page", 1);
+                int limit       = this.get_int("limit", 10);
+                string order    = this.get("order", "desc");
                 if( id <= 0 )
                     throw new SBException.GENERAL("Identificador de usuario invalido");
-                var items = Entity.where("target_id", "=", id).get<MoneyRequest>();
+                int offset = (page <= 1) ? 0 : ( (page - 1) * limit);
+                var items = Entity.where("target_id", "=", id)
+                    .order_by("request_date", order)
+                    .limit(limit, offset)
+                    .get<MoneyRequest>();
                 return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
