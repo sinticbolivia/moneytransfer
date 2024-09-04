@@ -91,9 +91,16 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
         {
             try
             {
+                int page    = this.get_int("page", 1);
+                int limit   = this.get_int("limit", 25);
+                int offset  = (page > 1) ? ((page - 1) * limit) : 0;
                 if( this.profile.user_id <= 0 )
                     throw new SBException.GENERAL("Identificador de usuario invalido");
-                var items = Entity.where("target_id", "=", this.profile.user_id).get<MoneyRequest>();
+                var items = Entity
+                    .where("target_id", "=", this.profile.user_id)
+                    .order_by("creation_date", "DESC")
+                    .limit(limit, offset)
+                    .get<MoneyRequest>();
                 return new RestResponse(Soup.Status.OK, items.to_json(), "application/json; charset=utf-8");
             }
             catch(SBException e)
