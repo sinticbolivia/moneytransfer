@@ -3,6 +3,7 @@ vapi_dir = meson.current_source_dir()  + '/src/vapi'
 inc_directories = ['.']
 SO_TARGET = get_option('so_target')
 sbframework_dir = get_option('libsinticbolivia')
+install_dir = get_option('install_dir')
 
 link_args = []
 subsystem = false
@@ -90,7 +91,8 @@ libmoneyrequests = shared_library(
 	sources,
 	dependencies: dependencies,
 	include_directories : include_dir,
-	install: true
+	install: true,
+	install_dir: install_dir,
 )
 libmoneyrequests_dep = declare_dependency(
 	include_directories : include_dir,
