@@ -13,7 +13,12 @@ libsoup-3.0 or libsoup-2.4
 
 # Compilation
 
+- Build with options
+meson build -Dlibsinticbolivia=../desktop-framework
+meson build -Dlibsinticbolivia=../desktop-framework -Dinstall_dir=../../../services/moneytransfer
+- Build without options
 meson build
+
 cd build
 meson compile
 
