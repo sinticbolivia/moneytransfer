@@ -19,7 +19,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Controllers
                     return null;
                 }
                 string jwt = this.get_jwt();
-                debug("MONEYTRANSFER JWT: %s\n", jwt);
+                debug("ROUTE: %s\nMONEYTRANSFER JWT: %s\n", webroute.route, jwt);
                 var modelAuth = new AuthenticationModel();
                 modelAuth.verify_token(jwt, out this.profile);
                 if( this.profile == null || this.profile.user_id <= 0 )

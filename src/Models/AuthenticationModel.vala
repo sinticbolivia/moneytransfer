@@ -42,7 +42,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Models
             var request = new SBRequest();
             request.headers.set("Authorization", "Bearer %s".printf(jwt));
             var response = request.get(this.service_profile_endpoint);
-            debug("MICROSERVICE PROFILE RESPONSE: %s\n", response.body);
+            debug("MICROSERVICE PROFILE RESPONSE(%d): %s\n", response.code, response.body);
             if( !response.ok )
             {
                 debug(response.body);

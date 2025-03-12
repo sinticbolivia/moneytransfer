@@ -22,11 +22,13 @@ dependencies = [
     dependency('libpq'),
 ]
 # LIBSOUP
-dsoup = dependency('libsoup-3.0', version: '>=3.0.4', required: false)
+dsoup = dependency('libsoup-3.0', required: false)
 if dsoup.found()
 	dependencies += dsoup
+	message('LIBSOUP 3 FOUND')
 else
 	dependencies += dependency('libsoup-2.4', version: '>=2.64.2')
+	message('LIBSOUP 2 FOUND')
 endif
 # DESKTOP FRAMEWORK
 add_project_arguments(['--vapidir', meson.current_source_dir() + '/' + sbframework_dir], language: 'vala')
