@@ -46,7 +46,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Models
             if( !response.ok )
             {
                 debug(response.body);
-                throw new SBException.GENERAL("Autenticacion invalida");
+                throw new SBException.GENERAL("MICROSERVICE VERIFY TOKEN: Autenticacion invalida");
             }
             profile = this.get_profile_from_response(response.to_json_object());
             profile.jwt = jwt;
@@ -60,7 +60,7 @@ namespace SinticBolivia.Modules.MoneyTransfer.Models
             request.headers.set("Authorization", "Bearer %s".printf(jwt));
             var response = request.get(this.service_users_endpoint + "/%ld".printf(id));
             if( !response.ok )
-                throw new SBException.GENERAL("Autenticacion invalida");
+                throw new SBException.GENERAL("MICROSERVICE GET USER BY ID: Autenticacion invalida");
             return this.get_profile_from_response(response.to_json_object());
         }
 
