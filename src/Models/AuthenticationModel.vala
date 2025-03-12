@@ -60,7 +60,10 @@ namespace SinticBolivia.Modules.MoneyTransfer.Models
             request.headers.set("Authorization", "Bearer %s".printf(jwt));
             var response = request.get(this.service_users_endpoint + "/%ld".printf(id));
             if( !response.ok )
+            {
+                debug(response.dump());
                 throw new SBException.GENERAL("MICROSERVICE GET USER BY ID: Autenticacion invalida");
+            }
             return this.get_profile_from_response(response.to_json_object());
         }
 
